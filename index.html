@@ -3,244 +3,216 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ProbablyNotALemon | VTuber</title>
+<title>ProbablyNotALemon | VTuber Hub</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0b0f1a;
-  --panel:#11172a;
+  --bg:#070A12;
+  --panel:#0E1426;
   --neon:#6ef3ff;
   --neon2:#b26bff;
+  --danger:#ff3b6b;
   --text:#e6f7ff;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* LOADING SCREEN */
-#loader{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle at 50% 40%, #1a2040, #0b0f1a);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
+body{
+  font-family:Inter,system-ui;
   color:var(--text);
+  background: radial-gradient(circle at 20% 10%, rgba(110,243,255,.12), transparent 40%),
+              radial-gradient(circle at 80% 20%, rgba(178,107,255,.12), transparent 45%),
+              linear-gradient(180deg,#070A12,#0B1020);
+  overflow-x:hidden;
 }
 
-.loader-text{
+/* LOADING */
+#loader{
+  position:fixed;inset:0;
+  background:#070A12;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:9999;
+}
+
+#loader h1{
   font-family:Orbitron;
-  font-size:28px;
-  letter-spacing:3px;
   color:var(--neon);
+  letter-spacing:4px;
   text-shadow:0 0 20px var(--neon);
 }
 
-.spinner{
+.bar{
+  width:200px;height:4px;
+  background:#1a1f33;
   margin-top:20px;
-  width:60px;
-  height:60px;
-  border:4px solid rgba(255,255,255,0.1);
-  border-top:4px solid var(--neon);
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+  overflow:hidden;
+  border-radius:10px;
 }
 
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-html,body{
+.bar span{
+  display:block;
   height:100%;
-  scroll-behavior:smooth;
-  background:
-    linear-gradient(180deg, #0b0f1a 0%, #0f1628 50%, #0b0f1a 100%),
-    radial-gradient(900px 600px at 20% 0%, rgba(178,107,255,.16), transparent 60%),
-    radial-gradient(900px 600px at 80% 10%, rgba(110,243,255,.16), transparent 60%);
-  background-attachment: fixed;
-  color:var(--text);
-  font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+  width:40%;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  animation:load 1.2s infinite;
 }
 
+@keyframes load{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(300%)}
+}
+
+/* NAV */
 nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  gap:28px;
-  padding:18px;
-  background:rgba(10,14,28,.65);
-  backdrop-filter:blur(12px);
+  position:fixed;top:0;width:100%;
+  display:flex;justify-content:center;
+  gap:25px;padding:15px;
+  background:rgba(10,15,30,.6);
+  backdrop-filter:blur(10px);
   z-index:10;
-  border-bottom:1px solid rgba(110,243,255,.15);
+  border-bottom:1px solid rgba(110,243,255,.1);
 }
 
 nav a{
   color:var(--text);
   text-decoration:none;
   font-weight:600;
-  letter-spacing:.08em;
 }
 nav a:hover{color:var(--neon)}
 
 header{
   min-height:100vh;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:120px 20px;
+  flex-direction:column;
 }
 
 h1{
   font-family:Orbitron;
-  font-size:clamp(42px,8vw,96px);
-  letter-spacing:.08em;
-  text-shadow:0 0 20px var(--neon);
+  font-size:clamp(40px,7vw,90px);
+  text-shadow:0 0 25px var(--neon);
 }
 
-h2{font-weight:300;margin-top:16px;opacity:.9}
-
-.cta{
-  margin-top:36px;
-  display:flex;
-  gap:18px;
-  justify-content:center;
-  flex-wrap:wrap;
+.glow{animation:flicker 2.5s infinite alternate}
+@keyframes flicker{
+  0%{text-shadow:0 0 10px var(--neon)}
+  100%{text-shadow:0 0 35px var(--neon2)}
 }
 
-.btn{
-  padding:14px 28px;
-  border-radius:40px;
-  border:1px solid rgba(110,243,255,.4);
-  color:var(--text);
-  text-decoration:none;
-  transition:.3s;
-  background:linear-gradient(90deg,rgba(110,243,255,.12),rgba(178,107,255,.12));
+.live-badge{
+  margin-top:10px;
+  padding:6px 12px;
+  border-radius:20px;
+  background:rgba(255,59,107,.15);
+  border:1px solid var(--danger);
+  color:var(--danger);
+  font-weight:700;
+  letter-spacing:2px;
+  animation:pulse 1.5s infinite;
 }
 
-.btn:hover{
-  box-shadow:0 0 24px var(--neon);
-  transform:translateY(-2px);
+@keyframes pulse{
+  0%{opacity:.4}
+  50%{opacity:1}
+  100%{opacity:.4}
 }
 
-section{
-  padding:120px 20px;
-  max-width:1100px;
-  margin:auto;
-}
+section{padding:100px 20px;max-width:1100px;margin:auto}
 
 .panel{
   background:var(--panel);
-  border:1px solid rgba(110,243,255,.15);
-  border-radius:20px;
-  padding:40px;
-  box-shadow:0 0 40px rgba(110,243,255,.08);
+  padding:25px;
+  border-radius:18px;
+  border:1px solid rgba(110,243,255,.1);
 }
 
-.section-title{
-  font-family:Orbitron;
-  font-size:32px;
-  margin-bottom:24px;
-  color:var(--neon);
-}
-
-/* STREAM LAYOUT */
-.stream-container{
+/* STREAM */
+.stream{
   display:flex;
   gap:20px;
   flex-wrap:wrap;
 }
 
-.stream-video{
-  flex:2;
-  min-width:300px;
-}
-
-.stream-chat{
-  flex:1;
-  min-width:280px;
-}
+.video{flex:2;min-width:300px}
+.chat{flex:1;min-width:260px}
 
 iframe{
-  width:100%;
-  height:420px;
-  border-radius:16px;
-  border:none;
+  width:100%;height:420px;
+  border:none;border-radius:12px;
 }
 
-.chat-iframe{
-  height:420px;
+/* CONTROLS */
+.controls{
+  display:flex;gap:10px;margin-top:15px;
+}
+
+button{
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  color:#000;
+  font-weight:700;
+}
+
+button:hover{transform:scale(1.05)}
+
+/* PARTICLES */
+canvas{
+  position:fixed;inset:0;
+  z-index:-1;
 }
 
 footer{
-  padding:60px 20px;
   text-align:center;
-  opacity:.7;
-}
-
-.glow{
-  animation:glow 2.5s ease-in-out infinite alternate;
-}
-
-@keyframes glow{
-  from{text-shadow:0 0 10px var(--neon)}
-  to{text-shadow:0 0 30px var(--neon2)}
+  padding:50px;
+  opacity:.6;
 }
 </style>
 </head>
-
 <body>
 
-<!-- LOADING SCREEN -->
 <div id="loader">
-  <div class="loader-text">LOADING STREAM</div>
-  <div class="spinner"></div>
+  <h1>BOOTING VTUBER SYSTEM</h1>
+  <div class="bar"><span></span></div>
 </div>
+
+<canvas id="bg"></canvas>
 
 <nav>
   <a href="#home">Home</a>
-  <a href="#about">About</a>
   <a href="#live">Live</a>
 </nav>
 
 <header id="home">
-  <div>
-    <h1 class="glow">ProbablyNotALemon</h1>
-    <h2>VTuber • Chaos • Entertainment</h2>
-    <div class="cta">
-      <a class="btn" href="#live">Watch Live</a>
-      <a class="btn" href="#about">About Me</a>
-    </div>
-  </div>
+  <h1 class="glow">ProbablyNotALemon</h1>
+  <div class="live-badge">● LIVE SYSTEM READY</div>
 </header>
-
-<section id="about">
-  <div class="panel">
-    <div class="section-title">About Me</div>
-    <p>Hey! I'm ProbablyNotALemon, a VTuber streaming games, chaos, and fun live on Twitch.</p>
-  </div>
-</section>
 
 <section id="live">
   <div class="panel">
-    <div class="section-title">Live Stream</div>
 
-    <div class="stream-container">
+    <div class="stream">
 
-      <div class="stream-video">
+      <div class="video">
         <iframe
-          src="https://player.twitch.tv/?channel=probablynotalemon&parent=probablynotalemon.github.io"
-          allowfullscreen>
+          src="https://player.twitch.tv/?channel=probablynotalemon&parent=probablynotalemon.github.io">
         </iframe>
+
+        <div class="controls">
+          <button onclick="toggleChat()">Toggle Chat</button>
+          <button onclick="window.open('https://twitch.tv/probablynotalemon')">Open Twitch</button>
+        </div>
       </div>
 
-      <div class="stream-chat">
+      <div class="chat" id="chatBox">
         <iframe
-          class="chat-iframe"
           src="https://www.twitch.tv/embed/probablynotalemon/chat?parent=probablynotalemon.github.io">
         </iframe>
       </div>
@@ -250,17 +222,44 @@ footer{
   </div>
 </section>
 
-<footer>
-  © 2026 ProbablyNotALemon • All rights reserved
-</footer>
+<footer>© 2026 ProbablyNotALemon</footer>
 
 <script>
-window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  loader.style.opacity = '0';
-  loader.style.transition = '0.5s ease';
-  setTimeout(() => loader.style.display = 'none', 500);
+// LOADER
+window.addEventListener('load',()=>{
+  document.getElementById('loader').style.display='none';
 });
+
+// CHAT TOGGLE
+function toggleChat(){
+  const c=document.getElementById('chatBox');
+  c.style.display=c.style.display==='none'?'block':'none';
+}
+
+// PARTICLES
+const c=document.getElementById('bg');
+const ctx=c.getContext('2d');
+c.width=innerWidth;c.height=innerHeight;
+
+let dots=[];
+for(let i=0;i<80;i++){
+  dots.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)})
+}
+
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle='rgba(110,243,255,.6)';
+  dots.forEach(d=>{
+    d.x+=d.vx;d.y+=d.vy;
+    if(d.x<0||d.x>c.width)d.vx*=-1;
+    if(d.y<0||d.y>c.height)d.vy*=-1;
+    ctx.beginPath();
+    ctx.arc(d.x,d.y,2,0,Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
 </script>
 
 </body>
