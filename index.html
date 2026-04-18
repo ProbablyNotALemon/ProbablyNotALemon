@@ -10,7 +10,7 @@
 <style>
 :root{
   --bg:#070A12;
-  --panel:#0E1426;
+  --panel:rgba(14,20,38,.55);
   --neon:#6ef3ff;
   --neon2:#b26bff;
   --danger:#ff3b6b;
@@ -22,19 +22,29 @@
 body{
   font-family:Inter,system-ui;
   color:var(--text);
-  background: radial-gradient(circle at 20% 10%, rgba(110,243,255,.12), transparent 40%),
-              radial-gradient(circle at 80% 20%, rgba(178,107,255,.12), transparent 45%),
-              linear-gradient(180deg,#070A12,#0B1020);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(110,243,255,.12), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(178,107,255,.12), transparent 45%),
+    linear-gradient(180deg,#070A12,#0B1020);
   overflow-x:hidden;
 }
 
-/* LOADING */
+/* LOADER */
 #loader{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:#070A12;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   z-index:9999;
+  opacity:1;
+  transition:opacity 1s ease;
+}
+
+#loader.fade{
+  opacity:0;
 }
 
 #loader h1{
@@ -45,11 +55,12 @@ body{
 }
 
 .bar{
-  width:200px;height:4px;
+  width:220px;
+  height:5px;
   background:#1a1f33;
   margin-top:20px;
+  border-radius:20px;
   overflow:hidden;
-  border-radius:10px;
 }
 
 .bar span{
@@ -65,15 +76,19 @@ body{
   100%{transform:translateX(300%)}
 }
 
-/* NAV */
+/* NAV GLASSMORPHISM */
 nav{
-  position:fixed;top:0;width:100%;
-  display:flex;justify-content:center;
-  gap:25px;padding:15px;
-  background:rgba(10,15,30,.6);
-  backdrop-filter:blur(10px);
+  position:fixed;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  padding:15px;
+  background:rgba(10,15,30,.35);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(110,243,255,.12);
   z-index:10;
-  border-bottom:1px solid rgba(110,243,255,.1);
 }
 
 nav a{
@@ -99,6 +114,7 @@ h1{
 }
 
 .glow{animation:flicker 2.5s infinite alternate}
+
 @keyframes flicker{
   0%{text-shadow:0 0 10px var(--neon)}
   100%{text-shadow:0 0 35px var(--neon2)}
@@ -112,7 +128,6 @@ h1{
   border:1px solid var(--danger);
   color:var(--danger);
   font-weight:700;
-  letter-spacing:2px;
   animation:pulse 1.5s infinite;
 }
 
@@ -122,16 +137,21 @@ h1{
   100%{opacity:.4}
 }
 
-section{padding:100px 20px;max-width:1100px;margin:auto}
+section{
+  padding:100px 20px;
+  max-width:1100px;
+  margin:auto;
+}
 
 .panel{
   background:var(--panel);
-  padding:25px;
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(110,243,255,.15);
   border-radius:18px;
-  border:1px solid rgba(110,243,255,.1);
+  padding:25px;
+  box-shadow:0 0 30px rgba(110,243,255,.08);
 }
 
-/* STREAM */
 .stream{
   display:flex;
   gap:20px;
@@ -142,13 +162,16 @@ section{padding:100px 20px;max-width:1100px;margin:auto}
 .chat{flex:1;min-width:260px}
 
 iframe{
-  width:100%;height:420px;
-  border:none;border-radius:12px;
+  width:100%;
+  height:420px;
+  border:none;
+  border-radius:12px;
 }
 
-/* CONTROLS */
 .controls{
-  display:flex;gap:10px;margin-top:15px;
+  display:flex;
+  gap:10px;
+  margin-top:12px;
 }
 
 button{
@@ -157,37 +180,38 @@ button{
   padding:10px 14px;
   border-radius:10px;
   cursor:pointer;
-  color:#000;
   font-weight:700;
 }
 
 button:hover{transform:scale(1.05)}
-
-/* PARTICLES */
-canvas{
-  position:fixed;inset:0;
-  z-index:-1;
-}
 
 footer{
   text-align:center;
   padding:50px;
   opacity:.6;
 }
+
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
 </style>
 </head>
+
 <body>
 
+<!-- LOADER -->
 <div id="loader">
-  <h1>BOOTING VTUBER SYSTEM</h1>
+  <h1>INITIALISING VTUBER SYSTEM</h1>
   <div class="bar"><span></span></div>
 </div>
 
 <canvas id="bg"></canvas>
 
 <nav>
-  <a href="#home">Home</a>
-  <a href="#live">Live</a>
+  <a href="#home" onclick="clickSound()">Home</a>
+  <a href="#live" onclick="clickSound()">Live</a>
 </nav>
 
 <header id="home">
@@ -197,65 +221,80 @@ footer{
 
 <section id="live">
   <div class="panel">
-
     <div class="stream">
 
       <div class="video">
-        <iframe
-          src="https://player.twitch.tv/?channel=probablynotalemon&parent=probablynotalemon.github.io">
-        </iframe>
+        <iframe src="https://player.twitch.tv/?channel=probablynotalemon&parent=probablynotalemon.github.io"></iframe>
 
         <div class="controls">
-          <button onclick="toggleChat()">Toggle Chat</button>
-          <button onclick="window.open('https://twitch.tv/probablynotalemon')">Open Twitch</button>
+          <button onclick="toggleChat();clickSound()">Toggle Chat</button>
+          <button onclick="window.open('https://twitch.tv/probablynotalemon');clickSound()">Open Twitch</button>
         </div>
       </div>
 
       <div class="chat" id="chatBox">
-        <iframe
-          src="https://www.twitch.tv/embed/probablynotalemon/chat?parent=probablynotalemon.github.io">
-        </iframe>
+        <iframe src="https://www.twitch.tv/embed/probablynotalemon/chat?parent=probablynotalemon.github.io"></iframe>
       </div>
 
     </div>
-
   </div>
 </section>
 
 <footer>© 2026 ProbablyNotALemon</footer>
 
 <script>
-// LOADER
+// LOADER FADE TRANSITION
 window.addEventListener('load',()=>{
-  document.getElementById('loader').style.display='none';
+  const loader=document.getElementById('loader');
+  loader.classList.add('fade');
+  setTimeout(()=>loader.style.display='none',1000);
+  startSound();
 });
 
-// CHAT TOGGLE
 function toggleChat(){
   const c=document.getElementById('chatBox');
   c.style.display=c.style.display==='none'?'block':'none';
+}
+
+// SIMPLE SOUND ENGINE (no files needed)
+let audioCtx;
+function startSound(){
+  audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+}
+
+function beep(freq=440,dur=0.05){
+  if(!audioCtx) return;
+  const o=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  o.connect(g);g.connect(audioCtx.destination);
+  o.frequency.value=freq;
+  o.type="sine";
+  g.gain.value=0.05;
+  o.start();
+  setTimeout(()=>o.stop(),dur*1000);
+}
+
+function clickSound(){
+  beep(520,0.06);
 }
 
 // PARTICLES
 const c=document.getElementById('bg');
 const ctx=c.getContext('2d');
 c.width=innerWidth;c.height=innerHeight;
-
 let dots=[];
-for(let i=0;i<80;i++){
+for(let i=0;i<70;i++){
   dots.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5),vy:(Math.random()-.5)})
 }
 
 function draw(){
   ctx.clearRect(0,0,c.width,c.height);
-  ctx.fillStyle='rgba(110,243,255,.6)';
+  ctx.fillStyle='rgba(110,243,255,.5)';
   dots.forEach(d=>{
     d.x+=d.vx;d.y+=d.vy;
     if(d.x<0||d.x>c.width)d.vx*=-1;
     if(d.y<0||d.y>c.height)d.vy*=-1;
-    ctx.beginPath();
-    ctx.arc(d.x,d.y,2,0,Math.PI*2);
-    ctx.fill();
+    ctx.beginPath();ctx.arc(d.x,d.y,2,0,Math.PI*2);ctx.fill();
   });
   requestAnimationFrame(draw);
 }
